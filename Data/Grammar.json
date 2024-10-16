@@ -1,0 +1,194 @@
+{
+    "InitialStatement":["Module"],
+    "Module":{
+        "isTerminal":0,
+        "0":"'module '+ModuleName+'('+Name+ConsistName*ConsistName+');'*Define*Action+'\nendmodule\n'"
+    },
+    "Define":{
+        "isTerminal":0,
+        "0":"'\n'+PhysicalDataType+' '+InitialScope+' '+Name*ConsistName+';'",
+        "1":"'\n'+PhysicalDataType+' '+Name*ConsistName+';'"
+    },
+    "Action":{
+        "isTerminal":0,
+        "0":"'\n'+Assign+';'",
+        "1":"'\n'+Always"
+    },
+    "Always":{
+        "isTerminal": 0,
+        "0":"'always @ ('+SensitivityList+') begin'*Alwaysaction+'\nend'",
+        "1":"'always @ ('+ESensitivityList+') begin'*EAlwaysaction+'\nend'"
+    },
+    "SensitivityList": {
+        "isTerminal": 0,
+        "0":"'*'",
+        "1":"RightName*ConsistSensitiveName"
+    },
+    "ConsistSensitiveName":{
+        "isTerminal": 0,
+        "0":"', '|' or '+RightName"
+    },
+    "ESensitivityList": {
+        "isTerminal": 0,
+        "0":"Edge+' '+RightName*EConsistSensitiveName"
+    },
+    "EConsistSensitiveName":{
+        "isTerminal": 0,
+        "0":"', '|' or '+Edge+' '+RightName"
+    },
+    "Edge": {
+        "isTerminal": 0,
+        "0":"'posedge'|'negedge'"
+    },
+    "Alwaysaction":{
+        "isTerminal":0,
+        "0":"Block",
+        "1":"If"
+    },
+    "EAlwaysaction":{
+        "isTerminal":0,
+        "0":"NoBlock",
+        "1":"EIf"
+    },
+    "Block":{
+        "isTerminal":0,
+        "0":"'\n'+LeftName+' = '+Expr+';'"
+    },
+    "NoBlock":{
+        "isTerminal":0,
+        "0":"'\n'+LeftName+' <= '+Expr+';'"
+    },
+    "EIf":{
+        "isTerminal":0,
+        "0":"EIfAction",
+        "1":"EIfAction+EElseAction",
+        "2":"EIfAction*EElseIfAction",
+        "3":"EIfAction*EElseIfAction+EElseAction"
+    },
+    "EIfAction":{
+        "isTerminal":0,
+        "0":"'\nif ('+Condition+') begin'*EIfaction+'\nend'"
+    },
+    "EElseIfAction":{
+        "isTerminal":0,
+        "0":"'\nelse if ('+Condition+') begin'*EIfaction+'\nend'"
+    },
+    "EElseAction":{
+        "isTerminal":0,
+        "0":"'\nelse begin'*EIfaction+'\nend'"
+    },
+    "If":{
+        "isTerminal":0,
+        "0":"IfAction",
+        "1":"IfAction+ElseAction",
+        "2":"IfAction*ElseIfAction",
+        "3":"IfAction*ElseIfAction+ElseAction"
+    },
+    "IfAction":{
+        "isTerminal":0,
+        "0":"'\nif ('+Condition+') begin'*Ifaction+'\nend'"
+    },
+    "ElseIfAction":{
+        "isTerminal":0,
+        "0":"'\nelse if ('+Condition+') begin'*Ifaction+'\nend'"
+    },
+    "ElseAction":{
+        "isTerminal":0,
+        "0":"'\nelse begin'*Ifaction+'\nend'"
+    },
+    "Condition":{
+        "isTerminal":0,
+        "0":"'('+Expr+')'+' '+Comparator+' '+'('+Expr+')'",
+        "1":"Expr",
+        "2":"Condition+' '+ConditionConnector+' '+Condition",
+        "3":"'!(('+Expr+')'+' '+Comparator+' '+'('+Expr+'))'",
+        "4":"'!('+Condition+' '+ConditionConnector+' '+Condition+')'"
+    },
+    "Comparator":{
+        "isTerminal":0,
+        "0":"'=='|'!='|'>='|'<='|'<'|'>'|'==='|'!=='"
+    },
+    "ConditionConnector":{
+        "isTerminal":0,
+        "0":"'&&'|'||'"
+    },
+    "Ifaction":{
+        "isTerminal":0,
+        "0":"Block",
+        "1":"If"
+    },
+    "EIfaction":{
+        "isTerminal":0,
+        "0":"NoBlock",
+        "1":"EIf"
+    },
+    "Assign":{
+        "isTerminal":0,
+        "0":"'assign '+LeftName+' = '+Expr"
+    },
+    "Expr":{
+        "isTerminal":0,
+        "0":"Num",
+        "1":"'('+Expr+')'",
+        "2":"RightName",
+        "3":"Expr+' '+DigitDoubleOperator+' '+Expr",
+        "4":"'~('+Expr+')'"
+    },
+    "DigitDoubleOperator":{
+        "isTerminal":0,
+        "0":"'+'|'-'|'*'|'&'|'|'"
+    },
+    "ConsistName":{
+        "isTerminal":0,
+        "0":"', '+Name"
+    },
+
+    "PhysicalDataType":{
+        "isTerminal":1,
+        "0":"'input'|'output'|'reg'|'wire'"
+    },
+
+    "InitialScope":{
+        "isTerminal":0,
+        "0":"'['+PositiveDoubleNumber+':0]'",
+        "1":"'['+PositiveNumber+':0]'"
+    },
+
+    "PositiveDoubleNumber":{
+        "isTerminal":0,
+        "0":"'1'-'9'+Digit"
+    },
+
+    "Num":{
+        "isTerminal":0,
+        "0":"'1'-'9'+Digit*Digit",
+        "1":"Digit"
+    },
+
+    "PositiveNumber":{
+        "isTerminal":1,
+        "0":"'1'-'9'"
+    },
+
+    "Digit":{
+        "isTerminal":1,
+        "0":"'0'-'9'"
+    },
+
+    "Name":{
+        "isTerminal":1,
+        "0":"'a'-'z'|'A'-'Z'*'a'-'z'|'A'-'Z'|'0'-'9'"
+    },
+    "LeftName":{
+        "isTerminal":1,
+        "0":"'a'-'z'|'A'-'Z'*'a'-'z'|'A'-'Z'|'0'-'9'"
+    },
+    "RightName":{
+        "isTerminal":1,
+        "0":"'a'-'z'|'A'-'Z'*'a'-'z'|'A'-'Z'|'0'-'9'"
+    },
+    "ModuleName":{
+        "isTerminal":1,
+        "0":"'a'-'z'|'A'-'Z'*'a'-'z'|'A'-'Z'|'0'-'9'"
+    }
+}
